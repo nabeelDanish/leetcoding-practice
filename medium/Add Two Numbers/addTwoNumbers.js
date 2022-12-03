@@ -6,10 +6,11 @@ const ListNode = require("../../commons/LinkedList").ListNode;
  * @return {ListNode}
  */
 const addTwoNumbers = function (l1, l2) {
-  const result = [];
+  const result = new ListNode();
 
   let pointer1 = l1;
   let pointer2 = l2;
+  let pointer3 = result;
 
   let carry = 0;
 
@@ -20,10 +21,12 @@ const addTwoNumbers = function (l1, l2) {
     const sum = (val1 + val2 + carry) % 10;
     carry = Math.floor((val1 + val2 + carry) / 10);
 
-    result.push(sum);
+    pointer3.val = sum;
+    pointer3.next = new ListNode();
 
     pointer1 = pointer1.next;
     pointer2 = pointer2.next;
+    pointer3 = pointer3.next;
   }
 
   while (pointer1.val != null) {
@@ -31,9 +34,11 @@ const addTwoNumbers = function (l1, l2) {
     const sum = (val1 + carry) % 10;
     carry = Math.floor((val1 + carry) / 10);
 
-    result.push(sum);
+    pointer3.val = sum;
+    pointer3.next = new ListNode();
 
     pointer1 = pointer1.next;
+    pointer3 = pointer3.next;
   }
 
   while (pointer2.val != null) {
@@ -41,35 +46,27 @@ const addTwoNumbers = function (l1, l2) {
     const sum = (val2 + carry) % 10;
     carry = Math.floor((val2 + carry) / 10);
 
-    result.push(sum);
+    pointer3.val = sum;
+    pointer3.next = new ListNode();
 
     pointer2 = pointer2.next;
+    pointer3 = pointer3.next;
   }
 
   if (carry !== 0) {
-    result.push(carry);
+    pointer3.val = carry;
+    pointer3.next = new ListNode();
   }
 
   return result;
 };
 
-const compareArrays = function (arr1, arr2) {
-  if (arr1.length !== arr2.length) {
-    return false;
-  }
-
-  arr1.forEach((e, i) => {
-    if (e !== arr2[i]) {
-      return false;
-    }
-  });
-
-  return true;
-};
-
 const testAddTwoNumbers = function (l1, l2, output) {
   const result = addTwoNumbers(l1, l2);
-  if (compareArrays(output, result)) {
+  const l3 = new ListNode();
+  l3.createList(output);
+
+  if (l3.equal(result)) {
     console.log("Test Passed!");
   } else {
     console.log(

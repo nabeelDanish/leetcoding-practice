@@ -25,4 +25,19 @@ module.exports.ListNode = class ListNode {
     this.val = null;
     this.next = null;
   }
+
+  equal(linkedList) {
+    let current = this;
+    let other = linkedList;
+
+    while (current.val !== null && other.val !== null) {
+      if (current.val !== other.val) {
+        return false;
+      }
+      current = current.next;
+      other = other.next;
+    }
+
+    return current.val === null && other.val === null;
+  }
 };
