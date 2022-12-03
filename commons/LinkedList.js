@@ -8,14 +8,16 @@ module.exports.ListNode = class ListNode {
     let current = this;
     for (let i = 0; i < list.length; ++i) {
       current.val = list[i];
-      current.next = new ListNode();
+      if (i < list.length - 1) {
+        current.next = new ListNode();
+      }
       current = current.next;
     }
   }
 
   printList() {
     let current = this;
-    while (current.val !== null) {
+    while (current !== null) {
       console.log(current.val);
       current = current.next;
     }
@@ -30,7 +32,7 @@ module.exports.ListNode = class ListNode {
     let current = this;
     let other = linkedList;
 
-    while (current.val !== null && other.val !== null) {
+    while (current !== null && other !== null) {
       if (current.val !== other.val) {
         return false;
       }
@@ -38,6 +40,6 @@ module.exports.ListNode = class ListNode {
       other = other.next;
     }
 
-    return current.val === null && other.val === null;
+    return current === null && other === null;
   }
 };

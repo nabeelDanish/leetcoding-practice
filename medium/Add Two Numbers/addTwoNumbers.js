@@ -14,7 +14,7 @@ const addTwoNumbers = function (l1, l2) {
 
   let carry = 0;
 
-  while (pointer1.val != null && pointer2.val != null) {
+  while (pointer1 != null && pointer2 != null) {
     const val1 = pointer1.val;
     const val2 = pointer2.val;
 
@@ -22,40 +22,50 @@ const addTwoNumbers = function (l1, l2) {
     carry = Math.floor((val1 + val2 + carry) / 10);
 
     pointer3.val = sum;
-    pointer3.next = new ListNode();
-
+      
+    if (pointer1.next != null || pointer2.next != null) {  
+      pointer3.next = new ListNode();
+      pointer3 = pointer3.next;
+    }
+      
     pointer1 = pointer1.next;
     pointer2 = pointer2.next;
-    pointer3 = pointer3.next;
   }
 
-  while (pointer1.val != null) {
+  while (pointer1 != null) {
     const val1 = pointer1.val;
     const sum = (val1 + carry) % 10;
     carry = Math.floor((val1 + carry) / 10);
 
     pointer3.val = sum;
-    pointer3.next = new ListNode();
-
+      
+    if (pointer1.next != null) {
+      pointer3.next = new ListNode();
+      pointer3 = pointer3.next;
+    }
+    
     pointer1 = pointer1.next;
-    pointer3 = pointer3.next;
   }
 
-  while (pointer2.val != null) {
+  while (pointer2 != null) {
     const val2 = pointer2.val;
     const sum = (val2 + carry) % 10;
     carry = Math.floor((val2 + carry) / 10);
 
     pointer3.val = sum;
-    pointer3.next = new ListNode();
-
+    
+    if (pointer2.next != null) {
+      pointer3.next = new ListNode();
+      pointer3 = pointer3.next;
+    }
+      
     pointer2 = pointer2.next;
-    pointer3 = pointer3.next;
   }
 
   if (carry !== 0) {
-    pointer3.val = carry;
     pointer3.next = new ListNode();
+    pointer3 = pointer3.next;
+    pointer3.val = carry;
   }
 
   return result;
