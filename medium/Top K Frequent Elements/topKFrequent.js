@@ -13,18 +13,32 @@ var topKFrequent = function (nums, k) {
       numCounts[num] = 1;
     }
   }
-  const arrCounts = Object.keys(numCounts).map((key) => {
-    return { key: Number(key), value: numCounts[key] };
-  });
 
-  const sortedCounts = arrCounts.sort((a, b) => {
-    return a.value > b.value ? -1 : 1;
-  });
+  // Filling Count Nums
+  const countNums = [];
+  for (let i = 0; i <= nums.length; ++i) {
+    countNums.push([]);
+  }
 
-  const result = [];
+  // Inverting Counts and Nums
+  const keys = Object.keys(numCounts);
+  for (let i = 0; i < keys.length; ++i) {
+    const key = keys[i];
+    const value = numCounts[key];
 
-  for (let i = 0; i < k; i++) {
-    result.push(sortedCounts[i].key);
+    countNums[value]?.push(Number(key));
+  }
+
+  // Iterating over the counts in reverse order to find
+  // Top k
+  let result = [];
+  for (let i = nums.length; i >= 0; --i) {
+    if (countNums[i].length > 0) {
+      result = result.concat(countNums[i]);
+      if (result.length >= k) {
+        break;
+      }
+    }
   }
 
   return result;
@@ -48,3 +62,4 @@ const testTopKFrequent = function (nums, k, output) {
 testTopKFrequent([1, 1, 1, 2, 2, 3], 2, [1, 2]);
 testTopKFrequent([1], 1, [1]);
 testTopKFrequent([4, 1, -1, 2, -1, 2, 3], 2, [-1, 2]);
+testTopKFrequent([1, 5, 9, 1, 3, 2, 9, 5, 5], 3, [5, 9, 1]);
