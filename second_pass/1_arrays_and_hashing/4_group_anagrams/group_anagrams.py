@@ -11,3 +11,10 @@ class Solution:
             map[new].append(strs[i])
 
         return list(map.values())
+
+    def testGroupAnagrams(self, strs: List[str], expected: List[List[str]]):
+        actual = self.groupAnagrams(strs)
+        if actual == expected:
+            print("Test Case Passed!")
+        else:
+            print(f"Test Case Failed! strs: {strs} actual: {actual} expected: {expected}")
