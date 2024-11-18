@@ -8,7 +8,7 @@
             "name": "Python Debugger: Module",
             "type": "debugpy",
             "request": "launch",
-            "module": "second_pass.6_linked_list.2_merge_sorted_list.merge_two_lists"
+            "module": "second_pass.6_linked_list.3_reorder_list.reorder_list"
         }
     ]
 }
