@@ -8,7 +8,7 @@
             "name": "Python Debugger: Module",
             "type": "debugpy",
             "request": "launch",
-            "module": "second_pass.6_linked_list.4_remove_nth_node.remove_nth_from_end"
+            "module": "second_pass.6_linked_list.5_copy_random_list.copy_random_list"
         }
     ]
 }
