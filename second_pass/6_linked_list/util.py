@@ -46,3 +46,21 @@ class LinkedList:
             second = second.next
 
         return not(first or second)
+    
+    @classmethod
+    def add_cycle(cls, head: ListNode, pos: int):
+        if pos < 0:
+            return head
+        
+        cycle_start = None
+        current = head
+        index = 0
+
+        while current.next:
+            if index == pos:
+                cycle_start = current
+            current = current.next
+            index += 1
+
+        current.next = cycle_start
+        return head
