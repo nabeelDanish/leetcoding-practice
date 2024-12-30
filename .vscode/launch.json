@@ -8,7 +8,7 @@
             "name": "Python Debugger: Module",
             "type": "debugpy",
             "request": "launch",
-            "module": "second_pass.6_linked_list.5_copy_random_list.copy_random_list"
+            "module": "second_pass.6_linked_list.9_lru_cache.lru_cache"
         }
     ]
 }
