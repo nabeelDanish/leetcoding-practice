@@ -8,7 +8,7 @@
             "name": "Python Debugger: Module",
             "type": "debugpy",
             "request": "launch",
-            "module": "second_pass.6_linked_list.9_lru_cache.lru_cache"
+            "module": "second_pass.6_linked_list.11_reverse_nodes.reverse_k_group"
         }
     ]
 }
