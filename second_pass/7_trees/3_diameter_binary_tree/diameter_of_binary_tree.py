@@ -11,16 +11,22 @@ from typing import Optional
 
 class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        self.max_longest_path = 0
+        self.max_diameter = 0
         self.traverseDiameterOfBinaryTree(root, 0)
-        return self.max_longest_path
+        return self.max_diameter
 
     def traverseDiameterOfBinaryTree(self, root, depth):
-        if root.left is None and root.right is None:
-            return depth
-        
-        longest_left_path = self.traverseDiameterOfBinaryTree(root.left, depth + 1)
-        longest_right_path = self.traverseDiameterOfBinaryTree(root.right, depth + 1)
+        if root is None:
+            return 0
+
+        left_max_depth = self.traverseDiameterOfBinaryTree(root.left, depth + 1)
+        right_max_depth = self.traverseDiameterOfBinaryTree(root.right, depth + 1)
+
+        diameter = left_max_depth + right_max_depth
+        if diameter > self.max_diameter:
+            self.max_diameter = diameter
+
+        return max(left_max_depth, right_max_depth) + 1
 
     def testDiameterOfBinaryTree(self, root: Optional[TreeNode], expected: int):
         actual = self.diameterOfBinaryTree(root)
