@@ -8,7 +8,7 @@
             "name": "Python Debugger: Module",
             "type": "debugpy",
             "request": "launch",
-            "module": "second_pass.6_linked_list.11_reverse_nodes.reverse_k_group"
+            "module": "second_pass.9_backtracking.5_subsets_ii.subsets_with_dup"
         }
     ]
 }
