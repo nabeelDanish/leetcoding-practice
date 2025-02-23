@@ -8,7 +8,7 @@
             "name": "Python Debugger: Module",
             "type": "debugpy",
             "request": "launch",
-            "module": "second_pass.10_trie.1_implement_trie.trie"
+            "module": "second_pass.11_graphs.1_number_of_islands.num_islands"
         }
     ]
 }
