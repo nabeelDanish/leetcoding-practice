@@ -8,7 +8,7 @@
             "name": "Python Debugger: Module",
             "type": "debugpy",
             "request": "launch",
-            "module": "second_pass.8_heaps.5_task_scheduler.least_interval"
+            "module": "second_pass.8_heaps.6_design_twitter.twitter"
         }
     ]
 }
