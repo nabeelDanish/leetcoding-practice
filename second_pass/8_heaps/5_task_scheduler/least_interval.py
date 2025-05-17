@@ -81,69 +81,114 @@ class Solution:
 
     #     return steps
 
-    def leastInterval(self, tasks: List[str], n: int) -> int:
-        task_qty = {}
-        for task in tasks:
-            if task not in task_qty:
-                task_qty[task] = 1
-            else:
-                task_qty[task] += 1
+    # def leastInterval(self, tasks: List[str], n: int) -> int:
+    #     task_qty = {}
+    #     for task in tasks:
+    #         if task not in task_qty:
+    #             task_qty[task] = 1
+    #         else:
+    #             task_qty[task] += 1
 
-        cooldown_count = {}
-        for task in task_qty.keys():
-            cooldown_count[task] = 0
+    #     cooldown_count = {}
+    #     for task in task_qty.keys():
+    #         cooldown_count[task] = 0
+
+    #     steps = 0
+    #     tasks_remaining = len(tasks)
+
+    #     while True:
+    #         selected_task = None
+    #         tasks_with_no_cooldown = []
+
+    #         # find all the tasks that have zero cooldown
+    #         for task, cooldown in cooldown_count.items():
+    #             if cooldown == 0:
+    #                 tasks_with_no_cooldown.append(task)
+
+    #         # if no task has zero cooldown we skip, if we have a list we select the one that has the max count
+    #         if tasks_with_no_cooldown:
+    #             tasks_qty_list = []
+    #             for task in tasks_with_no_cooldown:
+    #                 tasks_qty_list.append([task, task_qty.get(task)])
+
+    #             # sort to find the one with the most quantity
+    #             best_task = None
+    #             max_qty = 0
+    #             for pair in tasks_qty_list:
+    #                 if pair[1] > max_qty:
+    #                     best_task = pair[0]
+    #                     max_qty = pair[1]
+
+    #             # make sure we actually have quantity for this
+    #             if max_qty > 0:
+    #                 selected_task = best_task
+
+    #                 # decrease the quantity of this task
+    #                 task_qty[selected_task] = max(0, task_qty[selected_task] - 1)
+
+    #                 # set the cooldown to the interval
+    #                 cooldown_count[selected_task] = n
+
+    #         # Increment the steps to simulate time
+    #         steps += 1
+
+    #         # decrease the cooldown for all the tasks except the one that was selected
+    #         for task in cooldown_count.keys():
+    #             if task == selected_task:
+    #                 continue
+
+    #             cooldown_count[task] = max(0, cooldown_count[task] - 1)
+
+    #         # if task was selected and this is the last one, break
+    #         if selected_task:
+    #             tasks_remaining -= 1
+    #             if tasks_remaining <= 0:
+    #                 break
+
+    #     return steps
+
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        import heapq
+        from collections import deque, Counter
+
+        task_qty = Counter(tasks)
+        cooldown_queue = deque()  # maintain a queue of cooldown, push back with the new timestamp of when can be used
+
+        task_qty_heap = [(-qty, task) for task, qty in task_qty.items()]  # start with a heap since all items have cooldown 0
+        heapq.heapify(task_qty_heap)
 
         steps = 0
         tasks_remaining = len(tasks)
 
-        while True:
+        while tasks_remaining:
             selected_task = None
-            tasks_with_no_cooldown = []
 
-            # find all the tasks that have zero cooldown
-            for task, cooldown in cooldown_count.items():
-                if cooldown == 0:
-                    tasks_with_no_cooldown.append(task)
+            # First: Push into the queue again if the cooldown is over for all items in the queue
+            while cooldown_queue and cooldown_queue[0][0] == steps:
+                available_time, neg_qty, task = cooldown_queue.popleft()
+                heapq.heappush(task_qty_heap, (neg_qty, task))
 
-            # if no task has zero cooldown we skip, if we have a list we select the one that has the max count
-            if tasks_with_no_cooldown:
-                tasks_qty_list = []
-                for task in tasks_with_no_cooldown:
-                    tasks_qty_list.append([task, task_qty.get(task)])
+            # use heap to find the max frequency task, and use it
+            max_qty = 0
+            best_task = None
+            if len(task_qty_heap) > 0:
+                pair = heapq.heappop(task_qty_heap)
+                best_task = pair[1]
+                max_qty = -pair[0]
 
-                # sort to find the one with the most quantity
-                best_task = None
-                max_qty = 0
-                for pair in tasks_qty_list:
-                    if pair[1] > max_qty:
-                        best_task = pair[0]
-                        max_qty = pair[1]
-                
-                # make sure we actually have quantity for this
-                if max_qty > 0:          
-                    selected_task = best_task
+            # make sure we actually have quantity for this
+            if max_qty > 0:
+                selected_task = best_task
 
-                    # decrease the quantity of this task
-                    task_qty[selected_task] = max(0, task_qty[selected_task] - 1)
-
-                    # set the cooldown to the interval
-                    cooldown_count[selected_task] = n
+                # push into the queue again. item is removed from heap as well, so will only be in the heap if the cooldown is over
+                cooldown_queue.append((steps + n + 1, -(max_qty - 1), best_task))
 
             # Increment the steps to simulate time
             steps += 1
 
-            # decrease the cooldown for all the tasks except the one that was selected
-            for task in cooldown_count.keys():
-                if task == selected_task:
-                    continue
-
-                cooldown_count[task] = max(0, cooldown_count[task] - 1)
-
             # if task was selected and this is the last one, break
             if selected_task:
                 tasks_remaining -= 1
-                if tasks_remaining <= 0:
-                    break
 
         return steps
 
