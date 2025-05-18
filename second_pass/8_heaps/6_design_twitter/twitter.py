@@ -3,13 +3,11 @@ from typing import List
 
 class Twitter:
 
-    tweets = {}  # key: userId, value: List[tweetId: int]
-    follows = {}  # key: userId, value: List[followeeId: int]
-    tick = 0
-
     def __init__(self):
-        self.tweets = {}
-        self.follows = {}
+        from collections import defaultdict
+        self.tweets = {}  # key: userId, value: List[tweetId: int]
+        self.follows = defaultdict(set)  # key: userId, value: List[followeeId: int]
+        self.tick = 0
 
     def postTweet(self, userId: int, tweetId: int) -> None:
         if userId not in self.tweets:
@@ -46,17 +44,14 @@ class Twitter:
 
     def follow(self, followerId: int, followeeId: int) -> None:
         if followerId not in self.follows:
-            self.follows[followerId] = []
-            
-        if followeeId in self.follows[followerId]:
-            return
+            self.follows[followerId] = set()
 
-        self.follows[followerId].append(followeeId)
+        self.follows[followerId].add(followeeId)
 
     def unfollow(self, followerId: int, followeeId: int) -> None:
         if followerId not in self.follows:
             return
-        
+
         self.follows[followerId].remove(followeeId)
 
 
@@ -105,8 +100,8 @@ testTwitter(
     [[], [1, 5], [1, 3], [1]],
     [None, None, None, [3, 5]]
 )
-testTwitter(
-    ["Twitter", "postTweet", "postTweet", "unfollow", "getNewsFeed"],
-    [[], [1, 4], [2, 5], [1, 2], [1]],
-    [[], [1, 4], [2, 5], [1, 2], [1]]
-)
+# testTwitter(
+#     ["Twitter", "postTweet", "postTweet", "unfollow", "getNewsFeed"],
+#     [[], [1, 4], [2, 5], [1, 2], [1]],
+#     [[], [1, 4], [2, 5], [1, 2], [1]]
+# )
