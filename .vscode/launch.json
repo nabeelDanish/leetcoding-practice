@@ -8,7 +8,7 @@
             "name": "Python Debugger: Module",
             "type": "debugpy",
             "request": "launch",
-            "module": "second_pass.8_heaps.7_find_median_from_data_stream.median_finder"
+            "module": "second_pass.9_backtracking.4_permutations.permute"
         }
     ]
 }
