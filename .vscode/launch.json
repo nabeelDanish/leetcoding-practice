@@ -8,7 +8,7 @@
             "name": "Python Debugger: Module",
             "type": "debugpy",
             "request": "launch",
-            "module": "second_pass.9_backtracking.4_permutations.permute"
+            "module": "second_pass.9_backtracking.6_word_search.exist"
         }
     ]
 }
