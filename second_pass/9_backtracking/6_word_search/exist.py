@@ -23,43 +23,41 @@ class Solution:
         # check if the board piece is already used in the path
         if used[curr_x][curr_y]:
             return False
-        
-            
 
         # add the current board piece and check if we reached the word
+        # if it is not the correct piece, we will pop it from the path and mark it as unused
         if board[curr_x][curr_y] == word[path_ix]:
             path_ix += 1
+            # we reached the end of the word, we found a valid path
+            if path_ix == len(word):
+                return True
         else:
             used[curr_x][curr_y] = False
             return False
-            return True
 
-        if not word.startswith(word_so_far):
-            path.pop()
-            used[curr_x][curr_y] = False
-            return False
+        used[curr_x][curr_y] = True
 
         # move in all possible directions, extending the path
-        if curr_x + 1 <= m:
-            ans = self.backtrack(board, word, path, used, curr_x + 1, curr_y)
+        if curr_x + 1 < m:
+            ans = self.backtrack(board, word, path_ix, used, curr_x + 1, curr_y)
             if ans:
                 return True
         if curr_x - 1 >= 0:
-            ans = self.backtrack(board, word, path, used, curr_x - 1, curr_y)
+            ans = self.backtrack(board, word, path_ix, used, curr_x - 1, curr_y)
             if ans:
                 return True
-        if curr_y + 1 <= n:
-            ans = self.backtrack(board, word, path, used, curr_x, curr_y + 1)
+        if curr_y + 1 < n:
+            ans = self.backtrack(board, word, path_ix, used, curr_x, curr_y + 1)
             if ans:
                 return True
         if curr_y - 1 >= 0:
-            ans = self.backtrack(board, word, path, used, curr_x, curr_y - 1)
+            ans = self.backtrack(board, word, path_ix, used, curr_x, curr_y - 1)
             if ans:
                 return True
-
-        # pop this from the path
-        path.pop()
+            
+        # we are backtracking, pop the current board piece from the path and mark it as unused
         used[curr_x][curr_y] = False
+        path_ix -= 1
         return False
 
     def testExist(self, board: List[List[str]], word: str, expected: bool):
@@ -84,4 +82,9 @@ Solution().testExist(
     [["A", "B", "C", "E"], ["S", "F", "C", "S"], ["A", "D", "E", "E"]],
     "ABCB",
     False
+)
+Solution().testExist(
+    [["C", "A", "A"], ["A", "A", "A"], ["B", "C", "D"]],
+    "AAB",
+    True
 )
