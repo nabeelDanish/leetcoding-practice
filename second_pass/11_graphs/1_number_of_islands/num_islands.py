@@ -4,15 +4,20 @@ from collections import deque
 
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
+        # Initialize the grid and visited set, and a variable to keep track of the total number of islands
         self.grid = grid
         self.visited = set()
         total_islands = 0
-
         n = len(self.grid)
         m = len(self.grid[0])
+
+        # we will iterate through the grid, and if we find a "1" that has not been visited
+        # we will perform a breadth-first search (BFS) to mark all the connected "1"s as visited, 
+        # and then we will increment the total number of islands by 1
         for i in range(n):
             for j in range(m):
                 if grid[i][j] == "1" and (i, j) not in self.visited:
+                    # we will perform a BFS to mark all the connected "1"s as visited, and then we will increment the total number of islands by 1
                     self.bst(i, j)
                     total_islands += 1
 
